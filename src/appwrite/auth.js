@@ -3,7 +3,7 @@
 import { Client, Account, ID } from "appwrite";
 import conf from "../conf/conf";
 
-class AuthService {
+export class AuthService {
    client = new Client();
    account;
 
