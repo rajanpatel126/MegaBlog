@@ -1,16 +1,42 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import authService from "./appwrite/auth";
+import { login, logout } from "./store/authSlice";
+import { Header, Footer } from "./components/index";
+import { Outlet } from "react-router-dom";
 import "./App.css";
-import env from "./conf/conf";
 
 function App() {
-  console.log(env.appwriteProjectId);
+   const [loading, setLoading] = useState(true);
+   const dispatch = useDispatch();
 
-  return (
-    <>
-      <h1 className="text-4xl font-semibold text-white font-sans text-center p-4">
-        A blog app with Appwrite
-      </h1>
-    </>
-  );
+   useEffect(() => {
+      authService
+         .getCurrentUser()
+         .then((userData) => {
+            if (userData) {
+               dispatch(login({ userData }));
+            } else {
+               dispatch(logout());
+            }
+         })
+
+         .finally(() => setLoading(false));
+   }, []);
+
+   return loading ? null : (
+      <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
+         <div className="w-full block">
+            <Header />
+            <main>
+               <Outlet />
+            </main>
+            <Footer />
+         </div>
+      </div>
+   );
 }
 
 export default App;
