@@ -67,8 +67,8 @@ const Login = () => {
                         validate: {
                            matchPattern: (value) =>
                               /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                                 value || "Provide Valid Email Address"
-                              ),
+                                 value
+                              ) || "Provide Valid Email Address",
                         },
                      })}
                   />
