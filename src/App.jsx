@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import authService from "./appwrite/auth";
