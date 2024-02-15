@@ -9,9 +9,9 @@ import { useForm } from "react-hook-form";
 
 const Signup = () => {
    const navigate = useNavigate();
-   const dispatch = useDispatch();
-
    const [error, setError] = useState("");
+
+   const dispatch = useDispatch();
    const { register, handleSubmit } = useForm();
 
    const create = async (data) => {
@@ -21,12 +21,9 @@ const Signup = () => {
          const userData = await authService.createAccount(data);
 
          if (userData) {
-            const userdata = await authService.getCurrentUser();
+            const userData = await authService.getCurrentUser();
 
-            if (userdata) {
-               dispatch(login(userdata));
-            }
-
+            if (userData) dispatch(login(userData));
             navigate("/");
          }
       } catch (error) {
@@ -62,14 +59,14 @@ const Signup = () => {
                <div className="space-y-5">
                   <Input
                      label="Name: "
-                     placeholder="Enter your name..."
+                     placeholder="Enter your name"
                      {...register("name", {
                         required: true,
                      })}
                   />
                   <Input
                      label="Email: "
-                     placeholder="Enter your Email... "
+                     placeholder="Enter your email"
                      type="email"
                      {...register("email", {
                         required: true,
@@ -77,19 +74,19 @@ const Signup = () => {
                            matchPatern: (value) =>
                               /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
                                  value
-                              ) || "Provide Valid Email Address",
+                              ) || "Email address must be a valid address",
                         },
                      })}
                   />
                   <Input
-                     label="password"
-                     placeholder="Enter the Password..."
-                     type="Password"
+                     label="Password: "
+                     type="password"
+                     placeholder="Enter your password"
                      {...register("password", {
                         required: true,
                      })}
                   />
-                  <Button type="submit" classname="w-fit">
+                  <Button type="submit" className="w-full">
                      Create Account
                   </Button>
                </div>
