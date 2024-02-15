@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
-import authService from "../../appwrite/auth";
+import authService from "../../appwrite/config";
 
 const LogoutBtn = () => {
    const dispatch = useDispatch();
 
    const logOutHandler = () => {
-      authService.logOut().then(() => {
+      authService.logout().then(() => {
          dispatch(logout());
       });
    };

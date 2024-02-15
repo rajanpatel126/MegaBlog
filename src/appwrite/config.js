@@ -86,7 +86,7 @@ export class Service {
             queries
          );
       } catch (error) {
-         console.log("Appwrite service :: getPosts :: error", error);
+         console.log("Appwrite serive :: getPosts :: error", error);
          return false;
       }
    }
@@ -118,6 +118,6 @@ export class Service {
    }
 }
 
-const service = Service();
+const service = new Service();
 
 export default service;
