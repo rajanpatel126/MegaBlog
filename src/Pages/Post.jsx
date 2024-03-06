@@ -7,9 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function Post() {
    const [post, setPost] = useState(null);
-
    const { slug } = useParams();
-
    const navigate = useNavigate();
 
    const userData = useSelector((state) => state.auth.userData);
@@ -29,7 +27,6 @@ export default function Post() {
       appwriteService.deletePost(post.$id).then((status) => {
          if (status) {
             appwriteService.deleteFile(post.featuredImage);
-
             navigate("/");
          }
       });

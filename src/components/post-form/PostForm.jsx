@@ -1,31 +1,29 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Select, RTE } from "../index.js";
-import appwriteService from "../../appwrite/config.js";
-import { useSelector } from "react-redux";
+import { Button, Input, RTE, Select } from "..";
+import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const PostForm = ({ post }) => {
-   const { register, handleSubmit, setValue, watch, control, getValues } =
+export default function PostForm({ post }) {
+   const { register, handleSubmit, watch, setValue, control, getValues } =
       useForm({
          defaultValues: {
             title: post?.title || "",
-            slug: post?.slug || "",
+            slug: post?.$id || "",
             content: post?.content || "",
             status: post?.status || "active",
          },
       });
 
    const navigate = useNavigate();
-
-   const userData = useSelector((state) => state.user.userData);
+   const userData = useSelector((state) => state.auth.userData);
 
    const submit = async (data) => {
       if (post) {
          const file = data.image[0]
-            ? appwriteService.uploadFile(data.image[0])
+            ? await appwriteService.uploadFile(data.image[0])
             : null;
 
          if (file) {
@@ -46,7 +44,6 @@ const PostForm = ({ post }) => {
          if (file) {
             const fileId = file.$id;
             data.featuredImage = fileId;
-
             const dbPost = await appwriteService.createPost({
                ...data,
                userId: userData.$id,
@@ -64,25 +61,22 @@ const PostForm = ({ post }) => {
          return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-Z\d\s]+/g, "-")
+            .replace(/[^a-zA-Z\d\s]+/g, "-")
             .replace(/\s/g, "-");
 
       return "";
    }, []);
 
-   useEffect(() => {
+   React.useEffect(() => {
       const subscription = watch((value, { name }) => {
          if (name === "title") {
-            setValue(
-               "slug",
-               slugTransform(value.title, { shouldValidate: true })
-            );
+            setValue("slug", slugTransform(value.title), {
+               shouldValidate: true,
+            });
          }
       });
 
-      return () => {
-         subscription.unsubscribe(); //memory management technique
-      };
+      return () => subscription.unsubscribe();
    }, [watch, slugTransform, setValue]);
 
    return (
@@ -145,6 +139,4 @@ const PostForm = ({ post }) => {
          </div>
       </form>
    );
-};
-
-export default PostForm;
+}

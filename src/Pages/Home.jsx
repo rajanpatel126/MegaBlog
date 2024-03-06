@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import appwriteService from "../appwrite/config";
 import { Container, PostCard } from "../components";
 
-const Home = () => {
+function Home() {
    const [posts, setPosts] = useState([]);
 
    useEffect(() => {
@@ -29,7 +28,6 @@ const Home = () => {
          </div>
       );
    }
-
    return (
       <div className="w-full py-8">
          <Container>
@@ -43,6 +41,6 @@ const Home = () => {
          </Container>
       </div>
    );
-};
+}
 
 export default Home;

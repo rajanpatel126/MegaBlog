@@ -1,20 +1,21 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-const Button = ({
+import React from "react";
+
+export default function Button({
    children,
    type = "button",
    bgColor = "bg-blue-600",
    textColor = "text-white",
-   classname = "",
+   className = "",
    ...props
-}) => {
+}) {
    return (
       <button
-         className={`px-4 py-2 ${bgColor} ${textColor} ${type} ${classname}`}
+         className={`px-4 py-2 rounded-lg ${bgColor} ${textColor} ${className}`}
          {...props}
       >
          {children}
       </button>
    );
-};
-
-export default Button;
+}
